@@ -50,9 +50,9 @@ public class OrderDetailsService {
 		if(response.getStatusCode() != HttpStatus.OK) {
 			return response;
 		}
-		if (!(response.getBody() instanceof List)) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Response not valid from client.");
+		if(response.getBody() == null){
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body("Response body is null");
 		}
 		Map<Integer,Integer> productQuantity = new HashMap<>();
 		for (CartItems item : cartItems) {
@@ -61,6 +61,9 @@ public class OrderDetailsService {
 		
 		@SuppressWarnings("unchecked")
 		List<Product> products = (List<Product>) response.getBody();
+		if(products == null){
+			throw new NullPointerException("Response body is null");
+		}
 		List<ProductBill> productBills = new ArrayList<>();
 		for (Product product : products) {
 			int quantity = productQuantity.get(product.getId());

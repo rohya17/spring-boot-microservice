@@ -1,6 +1,0 @@
-com\common\models\UpdatePasswordPayload.class
-com\common\models\User.class
-com\common\models\ProductBill.class
-com\common\interfaces\UserInterface.class
-com\common\models\Product.class
-com\common\models\OrderBill.class

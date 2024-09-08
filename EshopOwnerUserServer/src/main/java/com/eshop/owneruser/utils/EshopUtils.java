@@ -1,7 +1,6 @@
 package com.eshop.owneruser.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -54,6 +53,9 @@ public class EshopUtils {
 
 	public static String generateFileName(String fileNameFormat, MultipartFile file, Object ...variables ) {
 		String orgFileName = file.getOriginalFilename();
+		if(orgFileName == null){
+			throw new NullPointerException("File name is null");
+		}
 		String fileExtention = orgFileName.substring(orgFileName.lastIndexOf("."));
 		String fileNameWoExtention = orgFileName.substring(0,orgFileName.lastIndexOf("."));
 		return String.format(fileNameFormat, fileNameWoExtention, variables).concat(fileExtention);
