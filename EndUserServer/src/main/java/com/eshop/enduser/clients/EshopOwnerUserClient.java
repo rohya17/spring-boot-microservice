@@ -15,6 +15,6 @@ public interface EshopOwnerUserClient {
 	ResponseEntity<Object> checkIfProductsAreValid( @RequestBody List<Integer> productIds);
 
 	@GetMapping("/products/getByIds")
-	ResponseEntity<Object> getProducts(@RequestParam("productIds") List<Integer> productIds);
+	ResponseEntity<Object> getProducts(@RequestParam List<Integer> productIds);
 
 }

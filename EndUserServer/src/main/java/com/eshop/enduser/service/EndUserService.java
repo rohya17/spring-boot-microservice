@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.common.interfaces.UserInterface;
+import com.common.utility.Validators;
 import com.eshop.enduser.models.EndUser;
 import com.eshop.enduser.repository.EndUserRepository;
 
@@ -24,19 +25,28 @@ public class EndUserService implements UserInterface{
 
 	@Override
 	public ResponseEntity<Object>  createOrUpdateUser(Object user) {
+		
 		EndUser endUserObject = (EndUser) user;
-		endUserObject.setPassword(passwordEncoder.encode(endUserObject.getPassword()));
+		String message = "User %s successfully.";
+		if( !Validators.validIntegerForId(endUserObject.getId()) && !endUserRepository.existsById(endUserObject.getId()) ) {
+			endUserObject.setPassword(passwordEncoder.encode(endUserObject.getPassword()));
+			String.format(message, "registered");
+		}else {
+			String.format(message, "updated");
+		}
 		endUserRepository.save(endUserObject);
-		return ResponseEntity.ok("User registered successfully!!!");
+		
+		return ResponseEntity.ok(message);
 	}
 	
 	@Override
 	public ResponseEntity<String> deleteUser(Integer userId) {
-		if(endUserRepository.existsById(userId)) {
+		
+		if( endUserRepository.existsById(userId) ) {
 			endUserRepository.deleteById(userId);
 			return ResponseEntity.ok("User deleted successfully.");
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete end user.");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("User not found with id %s.", userId));
 	}
 
 	@Override
@@ -57,7 +67,7 @@ public class EndUserService implements UserInterface{
 			return ResponseEntity.ok("Password updated successfully.");
 		}
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password does not match");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password does not match.");
 	}
 
 	public ResponseEntity<Object> getAllEndUser() {

@@ -14,13 +14,13 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class AppConfig {
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
+    @Bean
+    BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	public OpenAPI defineOpenApi() {
+
+    @Bean
+    OpenAPI defineOpenApi() {
 	   Server server = new Server();
 	   server.setUrl("http://localhost:8081");
 	   server.setDescription("Development");

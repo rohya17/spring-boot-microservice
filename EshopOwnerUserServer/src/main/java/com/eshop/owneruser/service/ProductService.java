@@ -99,7 +99,7 @@ public class ProductService {
 			}
 		}
 		return invalidIds.isEmpty() ? ResponseEntity.ok(true) 
-				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 								.body("These ids are not valid : "+invalidIds.toString());
 	}
 

@@ -27,15 +27,12 @@ public class EshopOwnerService implements UserInterface{
 	@Autowired private EshopService eshopService;
 	@Autowired private BCryptPasswordEncoder passwordEncoder;
 	
-	public ResponseEntity<Object> createEshopAndEshopOwner(Object user) throws IOException {
-		
-		// get payload
-		EshopRegistrationPayload payloadObject = (EshopRegistrationPayload) user;
-		
+	public ResponseEntity<Object> createEshopAndEshopOwner(EshopRegistrationPayload user) throws IOException {
+				
 		// separate eshop data and create eshop
 		Eshop eshop = new Eshop();
 		BeanUtils.copyProperties(user, eshop);
-		ResponseEntity<Object> createdEshop = eshopService.createOrUpdateEshop(eshop, payloadObject.getEshopCoverImage());
+		ResponseEntity<Object> createdEshop = eshopService.createOrUpdateEshop(eshop, user.getEshopCoverImage());
 		if(createdEshop.getStatusCode() != HttpStatus.OK ) {
 			return ResponseEntity
 					.status(HttpStatus.INTERNAL_SERVER_ERROR)

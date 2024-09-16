@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class EshopRegistrationPayload {
@@ -36,7 +37,7 @@ public class EshopRegistrationPayload {
 	@Size(min = 10, max = 500, message = "E-shop description should be min 10 max 500 character long")
 	private String eshopDescription;
 	
-	private MultipartFile eshopCoverImage;
+	@NotNull( message = "Cover Image is mandatory to create e-shop." ) private MultipartFile eshopCoverImage;
 
 	public String getGoodName() {
 		return goodName;

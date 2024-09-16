@@ -30,29 +30,26 @@ public class OrderDetailsService {
 
 		List<CartItems> cartItems = cartRepository.findByEndUserId( endUserId );
 		if(cartItems.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cart is empty.");
+			return ResponseEntity.ok("Cart is empty.");
 		}
 		return getBillForOrder( cartItems );
 	}
 
 	public ResponseEntity<Object> getAllOrders() {
 		List<CartItems> allOrders = cartRepository.findAll();
+		if(allOrders.isEmpty()) {
+			return ResponseEntity.ok("No orders pending.");
+		}
 		return getBillForOrder( allOrders );
 	}
 	
 	private ResponseEntity<Object> getBillForOrder(List<CartItems> cartItems) {
 		
 		List<Integer> productIds = cartItems.stream().map(cartItem -> cartItem.getProductId()).toList();
-		if(productIds.isEmpty()) {
-			return ResponseEntity.ok("Cart is empty !!!");
-		}
+		
 		ResponseEntity<Object> response = eshopOwnerUserClient.getProducts( productIds );
 		if(response.getStatusCode() != HttpStatus.OK) {
 			return response;
-		}
-		if(response.getBody() == null){
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-					.body("Response body is null");
 		}
 		Map<Integer,Integer> productQuantity = new HashMap<>();
 		for (CartItems item : cartItems) {
