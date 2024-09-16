@@ -26,19 +26,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@CrossOrigin
-@RestController
-@RequestMapping("/products")
+@CrossOrigin("*")
+@RestController("/products")
 public class ProductController {
 	
 	@Autowired ProductService productService;
 
 	@GetMapping("/getAll")
 	public ResponseEntity<Object> getAllProducts( 
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "pageSize", required = false) Integer pageSize,
-			@RequestParam(value = "searchTags", required = true) String searchTags,
-			@RequestParam(value = "searchTags", required = false) Integer shopId) {
+			@RequestParam( required = false) Integer page,
+			@RequestParam( required = false) Integer pageSize,
+			@RequestParam( required = true) String searchTags,
+			@RequestParam( required = false) Integer shopId) {
 		
 		page = page == null ? 0 : page;
 		pageSize = pageSize == null ? 10 : pageSize;
@@ -48,26 +47,26 @@ public class ProductController {
 	
 	@GetMapping("/getByIds")
 	public ResponseEntity<Object> getAllProducts( 
-			@Valid @NotEmpty(message = "ProductIds can not be empty") 
-			@RequestParam("productIds") List<Integer> productIds ) {
+			@Valid @NotNull(message = "Product id list is mandatory") 
+			@RequestParam(required = true) List<Integer> productIds ) {
 		return productService.getProductsByIds(productIds);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<Object> saveProductDetails( @Valid @RequestBody Product product,
 			@Valid @NotNull(message = "Product image can not be null") 
-			@RequestParam(value="productImage") MultipartFile productImage ) throws IOException {
+			@RequestParam(required = true) MultipartFile productImage ) throws IOException {
 		return productService.saveProductDetails( product, productImage );
 	}
 	
 	@PutMapping("/changeAvailability")
-	public ResponseEntity<Object> changeProductsAvailabilitlity( @RequestBody Map<Integer,Boolean> productsAvailability ){
+	public ResponseEntity<Object> changeProductsAvailabilitlity( @Valid @RequestBody Map<Integer,Boolean> productsAvailability ){
 		return productService.updateProductAvailability( productsAvailability );
 	}
 	
 	// soft delete
 	@DeleteMapping("/delete")
-	public ResponseEntity<Object> deleteProducts( @Valid @NotBlank @RequestParam String productIds ){
+	public ResponseEntity<Object> deleteProducts( @Valid @NotBlank @RequestParam(required=true) String productIds ){
 		return productService.deleteProducts( productIds );
 	}
 	
