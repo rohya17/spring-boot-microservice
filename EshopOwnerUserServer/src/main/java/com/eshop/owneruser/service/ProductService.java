@@ -59,7 +59,7 @@ public class ProductService {
 		if( EshopUtils.isValidFile(productImage) ) {
 			String storagePath = "D:/";
 			String generatedFileName = EshopUtils.generateFileName( FILE_NAME_FORMAT, productImage, product.getEshopId() );
-			boolean saved = EshopUtils.storeImage(productImage, storagePath, generatedFileName );
+			boolean saved = EshopUtils.storeImage( productImage, storagePath, generatedFileName );
 			if(saved) {
 				product.setProductImage(generatedFileName);
 			}

@@ -58,7 +58,7 @@ public class EshopOwnerService implements UserInterface{
 			eshopOwnerRepository.deleteById(userId);
 			return ResponseEntity.ok("User deleted successfully.");
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete end user.");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with id : "+userId);
 	}
 
 	@Override
