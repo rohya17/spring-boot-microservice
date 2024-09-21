@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.http.HttpStatus;
 
@@ -43,5 +44,11 @@ public class EndUserExceptionHandler {
 		});
 	    
 		return errors;
+	}
+	
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(InternalServerError.class)
+	public String internalServerErrorExceptions( InternalServerError ex) {
+		return ex.getCause().getMessage();
 	}
 }
