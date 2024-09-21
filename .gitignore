@@ -27,3 +27,8 @@ ServiceRegister/.project
 ServiceRegister/.classpath
 ServiceRegister/.settings/*
 ServiceRegister/target/*
+
+EshopMailServer/.project
+EshopMailServer/.classpath
+EshopMailServer/.settings/*
+EshopMailServer/target/*

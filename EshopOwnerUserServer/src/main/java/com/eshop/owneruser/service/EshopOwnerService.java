@@ -1,10 +1,12 @@
 package com.eshop.owneruser.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.common.interfaces.UserInterface;
+import com.common.models.EmailDetails;
+import com.eshop.owneruser.clients.MailClient;
 import com.eshop.owneruser.dto.EshopRegistrationPayload;
 import com.eshop.owneruser.models.Eshop;
 import com.eshop.owneruser.models.EshopOwner;
@@ -26,6 +30,7 @@ public class EshopOwnerService implements UserInterface{
 	@Autowired private EshopOwnerRepository eshopOwnerRepository;
 	@Autowired private EshopService eshopService;
 	@Autowired private BCryptPasswordEncoder passwordEncoder;
+	@Autowired private MailClient mailClient;
 	
 	public ResponseEntity<Object> createEshopAndEshopOwner(EshopRegistrationPayload user) throws IOException {
 				
@@ -45,6 +50,19 @@ public class EshopOwnerService implements UserInterface{
 		BeanUtils.copyProperties(user, eshopOwner);
 		eshopOwner.setPassword(passwordEncoder.encode(eshopOwner.getPassword()));
 		eshopOwner.setEshop(eshop);
+		
+		EmailDetails emailDetails = new EmailDetails();
+		emailDetails.setRecipents(eshopOwner.getEmail());		
+		emailDetails.setSubject(String.format("Welcome to E-shop %s owner", eshop.getEshopName()));
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("email-template-name", "welcome-eshop.html");
+		params.put("userName", eshopOwner.getGoodName());
+		emailDetails.setParams(params);
+		
+		ResponseEntity<String> response = mailClient.sendEmail( emailDetails );
+		if(response.getStatusCode() != HttpStatus.OK) {
+			return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( response.getBody() );
+		}
 		
 		// save eshop owner
 		eshopOwnerRepository.save(eshopOwner);
