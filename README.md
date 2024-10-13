@@ -1,4 +1,4 @@
-# work-sample
+# Microservice Sample Project
 
 Hey there !,
 my name is Rohit, and I am software engineer.
@@ -14,6 +14,7 @@ Till now these are the implemented technologies in this project:
     - zipkin
     - micrometer
 6. Swagger API documentation
+7. Email service using java email and smtp
 
 # How to run project
 1. Pull or download a zip of code - then extract and build
