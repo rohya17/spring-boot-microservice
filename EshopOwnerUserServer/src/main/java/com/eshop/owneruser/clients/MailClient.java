@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.common.models.EmailDetails;
 
-@FeignClient("ESHOP-MAIL-SERVER")
+@FeignClient(name="ESHOP-MAIL-SERVER",fallback = MailClientFallback.class
+// url="${mail.server.url}"
+)
 public interface MailClient {
 
 	@PostMapping("smtp/sendEmail")

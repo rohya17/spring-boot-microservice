@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("ESHOP-OWNER-USER-SERVER")
+@FeignClient(name="ESHOP-OWNER-USER-SERVER", fallback = EshopOwnerUserClientFallback.class
+// url="${eshop.owner.app.url}"
+)
 public interface EshopOwnerUserClient {
 
 	@GetMapping("/products/checkForValidProducts")
