@@ -72,10 +72,10 @@ public class ProductController {
 	        @ApiResponse(responseCode = "400", description = "Product image is mandatory to add product."),
 	        @ApiResponse(responseCode = "200", description = "Product details saved successfully."),
 	    })
-	@PostMapping("/save")
+	@PostMapping(value="/save")
 	public ResponseEntity<Object> saveProductDetails( @Valid @RequestBody Product product,
 			@Valid @NotNull(message = "Product image can not be null") 
-			@RequestParam(required = true) MultipartFile productImage ) throws IOException {
+			@RequestParam MultipartFile productImage ) throws IOException {
 		return productService.saveProductDetails( product, productImage );
 	}
 	

@@ -38,7 +38,7 @@ public class EshopOwnerController {
 		return eshopOwnerService.createEshopAndEshopOwner(eshopRegistrationPayload);
 	}
 	
-	@Operation(summary = "Gets cart total for end user", description = "")
+	@Operation(summary = "deletes Eshop user account")
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "User deleted successfully."),
 	        @ApiResponse(responseCode = "404", description = "User not found with id : x")
@@ -48,7 +48,7 @@ public class EshopOwnerController {
 		return eshopOwnerService.deleteUser(userId);
 	}
 	
-	@Operation(summary = "Gets cart total for end user", description = "gets cart total for given end user id")
+	@Operation(summary = "Gets all Eshop owner information")
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "response with all eshop owner details"),
 	    })

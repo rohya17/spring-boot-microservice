@@ -7,7 +7,7 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class GetewayApplication {
+public class GatewayApplication {
 	
 	private static final String[] END_USER_APP_PATHS = {"/cart/**", "/endUser/**", "/orders/**"};
 	private static final String[] ESHOP_OWNER_USER_PATHS = {"/eshopOwner/**","/products/**"};
@@ -16,11 +16,11 @@ public class GetewayApplication {
 	private static final String ESHOP_OWNER_USER_URI = "lb://ESHOP-OWNER-USER-SERVER";
 	
 	public static void main(String[] args) {
-		SpringApplication.run(GetewayApplication.class, args);
+		SpringApplication.run(GatewayApplication.class, args);
 	}
-	
-	@Bean
-	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+
+    @Bean
+    RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
 			.route("path_route", r -> r
 					.path( END_USER_APP_PATHS )
