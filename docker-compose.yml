@@ -1,0 +1,86 @@
+version: '3.9'
+networks:
+  app-network:
+
+services:
+
+  serviceregestry:
+    image: 'rohya1995/serviceregestry:latest'
+    container_name: serviceregestry
+    ports:
+      - '8761:8761'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://serviceregestry:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  configserver:
+    image: 'rohya1995/configserver:latest'
+    container_name: configserver
+    ports:
+      - '8084:8084'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://configserver:8084/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      serviceregestry:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  gateway-server:
+    image: 'rohya1995/gateway-server:latest'
+    container_name: gateway-server
+    ports:
+      - '8080:8080'
+    depends_on: 
+      configserver:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  mail-server:
+    image: 'rohya1995/mail-server:latest'    
+    container_name: mail-server
+    ports:
+      - '8083:8083'
+    depends_on:
+      configserver:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  zipkin:
+    image: 'rohya1995/zipkin:latest'
+    container_name: zipkin
+    ports:
+      - '9411:9411'
+    networks:
+      - app-network
+
+  eshop-owner-server:
+    image: 'rohya1995/eshop-owner-server:latest'
+    container_name: eshop-owner-server
+    ports:
+      - '8082:8082'
+    depends_on:
+      configserver:
+        condition: service_healthy
+    networks:
+      - app-network
+          
+  eshop-user-server:
+    image: 'rohya1995/eshop-user-server:latest'
+    container_name: eshop-user-server
+    ports:
+      - '8081:8081'
+    depends_on:
+      configserver:
+        condition: service_healthy
+    networks:
+      - app-network
