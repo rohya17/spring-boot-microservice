@@ -16,6 +16,7 @@ Till now these are the implemented technologies in this project:
 6. Swagger API documentation
 7. Email service using java email and smtp
 8. Circuit breakers
+9. Docker for microservice
 
 # How to run project
 1. Pull or download a zip of code - then extract and build
