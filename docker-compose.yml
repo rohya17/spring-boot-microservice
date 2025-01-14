@@ -30,6 +30,10 @@ services:
     depends_on:
       serviceregestry:
         condition: service_healthy
+    environment:
+      - GIT_CONFIG_URL=https://github.com/rohya17/config-repo.git
+      - EUREKA_HOST_ADDRESS=http://serviceregestry:8761/eureka/
+      - SERVER_PORT=8084
     networks:
       - app-network
 
@@ -41,6 +45,10 @@ services:
     depends_on: 
       configserver:
         condition: service_healthy
+    environment:
+      - CONFIG_SERVER=http://configserver:8084
+      - SERVER_PORT=8080
+      - ACTIVE_PROFILE=dev
     networks:
       - app-network
 
@@ -52,6 +60,10 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+    environment:
+      - CONFIG_SERVER=http://configserver:8084
+      - SERVER_PORT=8083
+      - ACTIVE_PROFILE=dev
     networks:
       - app-network
 
@@ -71,6 +83,10 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+    environment:
+      - CONFIG_SERVER=http://configserver:8084
+      - SERVER_PORT=8082
+      - ACTIVE_PROFILE=dev
     networks:
       - app-network
           
@@ -82,5 +98,9 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+    environment:
+      - CONFIG_SERVER=http://configserver:8084
+      - SERVER_PORT=8081
+      - ACTIVE_PROFILE=dev
     networks:
       - app-network
