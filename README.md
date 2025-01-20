@@ -30,3 +30,4 @@ Till now these are the implemented technologies in this project:
 9. Swagger UI can be observed on IP of application + /swagger-ui/index.html#/, ex. http://localhost:8080/swagger-ui/index.html#/
 10. All API's can be access through application gateway IP address.
 11. Now as you access API's you can find traces on localhost 9411 zipkin UI
+12. Or use dockerfile and docker compose to run service on docker, by changing account credentials to your own creds
