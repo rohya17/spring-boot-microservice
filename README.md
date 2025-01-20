@@ -9,7 +9,7 @@ Till now these are the implemented technologies in this project:
 1. Spring cloud Eureka client
 2. Spring cloud Eureka server
 3. Spring cloud Gateway 
-4. spring validation
+4. Spring validation
 5. Distributed tracing system
     - zipkin
     - micrometer
